@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.32002.185
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CourierBid", "CourierBid.csproj", "{8C4682F3-0843-4BE1-936B-24B0DEFB2005}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8C4682F3-0843-4BE1-936B-24B0DEFB2005}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8C4682F3-0843-4BE1-936B-24B0DEFB2005}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8C4682F3-0843-4BE1-936B-24B0DEFB2005}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8C4682F3-0843-4BE1-936B-24B0DEFB2005}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {0FDC848E-C59F-4160-9C3C-4761CC3B34FE}
+	EndGlobalSection
+EndGlobal
