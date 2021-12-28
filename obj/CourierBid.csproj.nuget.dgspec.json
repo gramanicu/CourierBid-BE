@@ -1,24 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Isi tema\\CourierBid-BE\\CourierBid\\CourierBid.csproj": {}
+    "D:\\CourierBid-BE\\CourierBid.csproj": {}
   },
   "projects": {
-    "D:\\Isi tema\\CourierBid-BE\\CourierBid\\CourierBid.csproj": {
+    "D:\\CourierBid-BE\\CourierBid.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Isi tema\\CourierBid-BE\\CourierBid\\CourierBid.csproj",
+        "projectUniqueName": "D:\\CourierBid-BE\\CourierBid.csproj",
         "projectName": "CourierBid",
-        "projectPath": "D:\\Isi tema\\CourierBid-BE\\CourierBid\\CourierBid.csproj",
-        "packagesPath": "C:\\Users\\WansE\\.nuget\\packages\\",
-        "outputPath": "D:\\Isi tema\\CourierBid-BE\\CourierBid\\obj\\",
+        "projectPath": "D:\\CourierBid-BE\\CourierBid.csproj",
+        "packagesPath": "C:\\Users\\admin\\.nuget\\packages\\",
+        "outputPath": "D:\\CourierBid-BE\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\WansE\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Users\\admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
