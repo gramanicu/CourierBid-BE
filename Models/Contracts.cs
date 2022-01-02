@@ -9,7 +9,7 @@ namespace CourierBid.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int ContractId { get; set; }
 
-        public Transports transports { get; set; }
+        public Transports Transports { get; set; }
         [ForeignKey("Transports")]
         public int TransportId { get; set; }
 

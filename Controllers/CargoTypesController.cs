@@ -30,7 +30,7 @@ namespace CourierBid.Controllers
         }
 
         [HttpGet("{id}")]
-        public CargoTypes GetCargoTypeId(int id)
+        public CargoTypes GetCargoTypesId(int id)
         {
             return _context.CargoTypes.FirstOrDefault(x => x.CargoTypeId == id);
         }
@@ -53,7 +53,7 @@ namespace CourierBid.Controllers
         [HttpPost("{id}")]
         public void Delete(int id)
         {
-            CargoTypes cargoTypes = _context.CargoTypes.FirstOrDefault(x => x.C == id);
+            CargoTypes cargoTypes = _context.CargoTypes.FirstOrDefault(x => x.CargoTypeId == id);
             _context.Remove(cargoTypes);
             _context.SaveChanges();
         }
