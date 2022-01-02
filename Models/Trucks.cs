@@ -14,9 +14,9 @@ namespace CourierBid.Models
         [ForeignKey("TruckModels")]
         public int ModelId { get; set; }
 
-        public Transports Transports { get; set; }
-        [ForeignKey("Transports")]
-        public int TransportId { get; set; }
+        public Users Users { get; set; }
+        [ForeignKey("Users")]
+        public int CourierId { get; set; }
 
         public float EmptyPrice { get; set; }
 

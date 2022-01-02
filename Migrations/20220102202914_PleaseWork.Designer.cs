@@ -3,15 +3,17 @@ using System;
 using CourierBid.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace CourierBid.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20220102202914_PleaseWork")]
+    partial class PleaseWork
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -191,9 +193,6 @@ namespace CourierBid.Migrations
                         .HasColumnType("integer")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
-                    b.Property<int>("CourierId")
-                        .HasColumnType("integer");
-
                     b.Property<float>("EmptyPrice")
                         .HasColumnType("real");
 
@@ -206,11 +205,14 @@ namespace CourierBid.Migrations
                     b.Property<string>("RegistryPlate")
                         .HasColumnType("text");
 
+                    b.Property<int>("TransportId")
+                        .HasColumnType("integer");
+
                     b.HasKey("TruckId");
 
-                    b.HasIndex("CourierId");
-
                     b.HasIndex("ModelId");
+
+                    b.HasIndex("TransportId");
 
                     b.ToTable("Trucks");
                 });
@@ -310,21 +312,21 @@ namespace CourierBid.Migrations
 
             modelBuilder.Entity("CourierBid.Models.Trucks", b =>
                 {
-                    b.HasOne("CourierBid.Models.Users", "Users")
-                        .WithMany()
-                        .HasForeignKey("CourierId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("CourierBid.Models.TruckModels", "TruckModels")
                         .WithMany()
                         .HasForeignKey("ModelId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("TruckModels");
+                    b.HasOne("CourierBid.Models.Transports", "Transports")
+                        .WithMany()
+                        .HasForeignKey("TransportId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.Navigation("Users");
+                    b.Navigation("Transports");
+
+                    b.Navigation("TruckModels");
                 });
 #pragma warning restore 612, 618
         }

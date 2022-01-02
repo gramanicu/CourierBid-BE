@@ -10,8 +10,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace CourierBid.Migrations.Login
 {
     [DbContext(typeof(LoginContext))]
-    [Migration("20220102100320_LoginRegister")]
-    partial class LoginRegister
+    [Migration("20220102203334_PleaseWork")]
+    partial class PleaseWork
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

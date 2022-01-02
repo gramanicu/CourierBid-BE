@@ -5,7 +5,7 @@ namespace CourierBid.Data
 {
     public class ApplicationContext : DbContext
     {
-        public ApplicationContext(DbContextOptions options)
+        public ApplicationContext(DbContextOptions<ApplicationContext> options)
             : base(options)
         {
         }

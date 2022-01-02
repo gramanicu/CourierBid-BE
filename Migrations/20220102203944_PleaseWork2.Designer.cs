@@ -10,8 +10,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace CourierBid.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20220102092459_Models_and_controllers_done")]
-    partial class Models_and_controllers_done
+    [Migration("20220102203944_PleaseWork2")]
+    partial class PleaseWork2
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -193,6 +193,9 @@ namespace CourierBid.Migrations
                         .HasColumnType("integer")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
+                    b.Property<int>("CourierId")
+                        .HasColumnType("integer");
+
                     b.Property<float>("EmptyPrice")
                         .HasColumnType("real");
 
@@ -205,14 +208,11 @@ namespace CourierBid.Migrations
                     b.Property<string>("RegistryPlate")
                         .HasColumnType("text");
 
-                    b.Property<int>("TransportId")
-                        .HasColumnType("integer");
-
                     b.HasKey("TruckId");
 
-                    b.HasIndex("ModelId");
+                    b.HasIndex("CourierId");
 
-                    b.HasIndex("TransportId");
+                    b.HasIndex("ModelId");
 
                     b.ToTable("Trucks");
                 });
@@ -312,21 +312,21 @@ namespace CourierBid.Migrations
 
             modelBuilder.Entity("CourierBid.Models.Trucks", b =>
                 {
+                    b.HasOne("CourierBid.Models.Users", "Users")
+                        .WithMany()
+                        .HasForeignKey("CourierId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("CourierBid.Models.TruckModels", "TruckModels")
                         .WithMany()
                         .HasForeignKey("ModelId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("CourierBid.Models.Transports", "Transports")
-                        .WithMany()
-                        .HasForeignKey("TransportId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Transports");
-
                     b.Navigation("TruckModels");
+
+                    b.Navigation("Users");
                 });
 #pragma warning restore 612, 618
         }

@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 namespace CourierBid.Data
 {
     public class LoginContext : IdentityDbContext<ApplicationUser> {
-        public LoginContext(DbContextOptions options) : base(options)
+        public LoginContext(DbContextOptions<LoginContext> options) : base(options)
         {
 
         }

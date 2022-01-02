@@ -40,14 +40,58 @@ namespace CourierBid
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "CourierBid", Version = "v1" });
             });
 
-            var connectionString = Configuration.GetConnectionString("DefaultConnection");
-            var dbPassword = "pgadmin4";
-            var builder = new NpgsqlConnectionStringBuilder(connectionString)
+            string connectionString = null;
+            string envVar = Environment.GetEnvironmentVariable("DATABASE_URL");
+            
+            if (string.IsNullOrEmpty(envVar))
             {
-                Password = dbPassword
-            };
-            services.AddDbContext<ApplicationContext>(options => options.UseNpgsql(builder.ConnectionString));
-            services.AddDbContext<LoginContext>(options => options.UseNpgsql(builder.ConnectionString));
+                envVar = Configuration["ConnectionStrings:DefaultConnection"];
+                var uri = new Uri(envVar);
+
+                var username = uri.UserInfo.Split(':')[0];
+
+                var password = uri.UserInfo.Split(':')[1];
+
+                connectionString =
+                "Server=" + uri.Host +
+                "; Database=" + uri.AbsolutePath.Substring(1) +
+
+                "; Username=" + username +
+
+                "; Password=" + password +
+
+                "; Port=" + uri.Port +
+
+                "; SSL Mode=Require; Trust Server Certificate=true;";
+
+            }
+            else
+            {
+
+                //parse database URL. Format is postgres://<username>:<password>@<host>/<dbname>
+
+                var uri = new Uri(envVar);
+
+                var username = uri.UserInfo.Split(':')[0];
+
+                var password = uri.UserInfo.Split(':')[1];
+
+                connectionString =
+
+                "; Database=" + uri.AbsolutePath.Substring(1) +
+
+                "; Username=" + username +
+
+                "; Password=" + password +
+
+                "; Port=" + uri.Port +
+
+                "; SSL Mode=Require; Trust Server Certificate=true;";
+
+            }
+
+            services.AddDbContext<ApplicationContext>(options => options.UseNpgsql(connectionString));
+            services.AddDbContext<LoginContext>(options => options.UseNpgsql(connectionString));
 
             // For Identity  
             services.AddIdentity<ApplicationUser, IdentityRole>()

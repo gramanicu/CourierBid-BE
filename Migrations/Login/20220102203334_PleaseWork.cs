@@ -4,7 +4,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace CourierBid.Migrations.Login
 {
-    public partial class LoginRegister : Migration
+    public partial class PleaseWork : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
