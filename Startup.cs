@@ -132,7 +132,6 @@ namespace CourierBid
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "CourierBid v1"));
             }
 
-            app.UseHttpsRedirection();
             app.UseAuthorization();
 
             app.UseRouting();
