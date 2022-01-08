@@ -29,7 +29,7 @@ namespace CourierBid.Controllers
         }
 
         [HttpPost]
-        [Route("login")]
+        [Route("user/signin")]
         public async Task<IActionResult> Login([FromBody] Login model)
         {
             var user = await userManager.FindByNameAsync(model.Username);
@@ -68,7 +68,7 @@ namespace CourierBid.Controllers
         }
 
         [HttpPost]
-        [Route("register")]
+        [Route("user/signup")]
         public async Task<IActionResult> Register([FromBody] Register model)
         {
             var userExists = await userManager.FindByNameAsync(model.Username);
@@ -82,44 +82,11 @@ namespace CourierBid.Controllers
                 UserName = model.Username,
                 FirstName = model.FirstName,
                 LastName = model.LastName,
-                Role = model.Role
+                Role = model.Role.ToUpper()
             };
             var result = await userManager.CreateAsync(user, model.Password);
             if (!result.Succeeded)
                 return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "User creation failed! Please check user details and try again." });
-
-            return Ok(new Response { Status = "Success", Message = "User created successfully!" });
-        }
-
-        [HttpPost]
-        [Route("register-admin")]
-        public async Task<IActionResult> RegisterAdmin([FromBody] Register model)
-        {
-            var userExists = await userManager.FindByNameAsync(model.Username);
-            if (userExists != null)
-                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "User already exists!" });
-
-            ApplicationUser user = new ApplicationUser()
-            {
-                Email = model.Email,
-                SecurityStamp = Guid.NewGuid().ToString(),
-                UserName = model.Username
-            };
-            var result = await userManager.CreateAsync(user, model.Password);
-            if (!result.Succeeded)
-                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "User creation failed! Please check user details and try again." });
-
-            if (!await roleManager.RoleExistsAsync(UserRoles.Admin))
-                await roleManager.CreateAsync(new IdentityRole(UserRoles.Admin));
-            if (!await roleManager.RoleExistsAsync(UserRoles.Client))
-                await roleManager.CreateAsync(new IdentityRole(UserRoles.Client));
-            if (!await roleManager.RoleExistsAsync(UserRoles.Transportator))
-                await roleManager.CreateAsync(new IdentityRole(UserRoles.Transportator));
-
-            if (await roleManager.RoleExistsAsync(UserRoles.Admin))
-            {
-                await userManager.AddToRoleAsync(user, UserRoles.Admin);
-            }
 
             return Ok(new Response { Status = "Success", Message = "User created successfully!" });
         }

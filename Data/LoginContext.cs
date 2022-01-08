@@ -12,8 +12,6 @@ namespace CourierBid.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            modelBuilder.Entity<ApplicationUser>().ToTable("Users").Property(p => p.Id).HasColumnName("UserId");
-            modelBuilder.Entity<IdentityRole>().ToTable("Roles");
         }
     }
 }
