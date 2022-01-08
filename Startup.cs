@@ -41,54 +41,26 @@ namespace CourierBid
             });
 
             string connectionString = null;
-            string envVar = Environment.GetEnvironmentVariable("DATABASE_URL");
+            string uriString = Environment.GetEnvironmentVariable("DATABASE_URL");
             
-            if (string.IsNullOrEmpty(envVar))
+            if (string.IsNullOrEmpty(uriString))
             {
-                envVar = Configuration["ConnectionStrings:DefaultConnection"];
-                var uri = new Uri(envVar);
-
-                var username = uri.UserInfo.Split(':')[0];
-
-                var password = uri.UserInfo.Split(':')[1];
-
-                connectionString =
-                "Server=" + uri.Host +
-                "; Database=" + uri.AbsolutePath.Substring(1) +
-
-                "; Username=" + username +
-
-                "; Password=" + password +
-
-                "; Port=" + uri.Port +
-
-                "; SSL Mode=Require; Trust Server Certificate=true;";
-
+                uriString = Configuration["ConnectionStrings:DefaultConnection"];         
             }
-            else
-            {
 
-                //parse database URL. Format is postgres://<username>:<password>@<host>/<dbname>
+            var uri = new Uri(uriString);
 
-                var uri = new Uri(envVar);
+            var username = uri.UserInfo.Split(':')[0];
 
-                var username = uri.UserInfo.Split(':')[0];
+            var password = uri.UserInfo.Split(':')[1];
 
-                var password = uri.UserInfo.Split(':')[1];
-
-                connectionString =
-
-                "; Database=" + uri.AbsolutePath.Substring(1) +
-
-                "; Username=" + username +
-
-                "; Password=" + password +
-
-                "; Port=" + uri.Port +
-
-                "; SSL Mode=Require; Trust Server Certificate=true;";
-
-            }
+            connectionString =
+            "Server=" + uri.Host +
+            "; Database=" + uri.AbsolutePath.Substring(1) +
+            "; Username=" + username +
+            "; Password=" + password +
+            "; Port=" + uri.Port +
+            "; SSL Mode=Require; Trust Server Certificate=true;";
 
             services.AddDbContext<ApplicationContext>(options => options.UseNpgsql(connectionString));
             services.AddDbContext<LoginContext>(options => options.UseNpgsql(connectionString));
@@ -128,13 +100,23 @@ namespace CourierBid
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "CourierBid v1"));
             }
+
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "CourierBid v1");
+            });
 
             app.UseAuthorization();
 
             app.UseRouting();
+
+            app.UseCors(x => x
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+                .SetIsOriginAllowed(origin => true) // allow any origin
+                .AllowCredentials()); // allow credentials
 
             app.UseAuthorization();
 
