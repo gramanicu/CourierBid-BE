@@ -79,7 +79,10 @@ namespace CourierBid.Controllers
             {
                 Email = model.Email,
                 SecurityStamp = Guid.NewGuid().ToString(),
-                UserName = model.Username
+                UserName = model.Username,
+                FirstName = model.FirstName,
+                LastName = model.LastName,
+                Role = model.Role
             };
             var result = await userManager.CreateAsync(user, model.Password);
             if (!result.Succeeded)

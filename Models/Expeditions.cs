@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System;
+using CourierBid.Data;
 
 namespace CourierBid.Models
 {
@@ -13,9 +14,9 @@ namespace CourierBid.Models
         [ForeignKey("Cargo")]
         public int CargoId { get; set; }
 
-        public Users Users { get; set; }
-        [ForeignKey("Users")]
-        public int UserId { get; set; }
+        public virtual ApplicationUser ApplicationUser { get; set; }
+        [ForeignKey("ApplicationUser")]
+        public string UserId { get; set; }
 
         public string PickupLocation { get; set; }
 

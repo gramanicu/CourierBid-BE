@@ -19,6 +19,67 @@ namespace CourierBid.Migrations
                 .HasAnnotation("ProductVersion", "5.0.7")
                 .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
+            modelBuilder.Entity("CourierBid.Data.ApplicationUser", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("text");
+
+                    b.Property<int>("AccessFailedCount")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("text");
+
+                    b.Property<bool>("EmailConfirmed")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("FirstName")
+                        .HasColumnType("text");
+
+                    b.Property<string>("LastName")
+                        .HasColumnType("text");
+
+                    b.Property<bool>("LockoutEnabled")
+                        .HasColumnType("boolean");
+
+                    b.Property<DateTimeOffset?>("LockoutEnd")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("NormalizedEmail")
+                        .HasColumnType("text");
+
+                    b.Property<string>("NormalizedUserName")
+                        .HasColumnType("text");
+
+                    b.Property<string>("PasswordHash")
+                        .HasColumnType("text");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("text");
+
+                    b.Property<bool>("PhoneNumberConfirmed")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("Role")
+                        .HasColumnType("text");
+
+                    b.Property<string>("SecurityStamp")
+                        .HasColumnType("text");
+
+                    b.Property<bool>("TwoFactorEnabled")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("UserName")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ApplicationUser");
+                });
+
             modelBuilder.Entity("CourierBid.Models.Cargo", b =>
                 {
                     b.Property<int>("CargoId")
@@ -110,14 +171,15 @@ namespace CourierBid.Migrations
                     b.Property<DateTime>("PickupTime")
                         .HasColumnType("timestamp without time zone");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("integer");
+                    b.Property<string>("UserId")
+                        .HasColumnType("text");
 
                     b.HasKey("ExpeditionId");
 
                     b.HasIndex("CargoId");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("UserId")
+                        .IsUnique();
 
                     b.ToTable("Expeditions");
                 });
@@ -191,8 +253,8 @@ namespace CourierBid.Migrations
                         .HasColumnType("integer")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
-                    b.Property<int>("CourierId")
-                        .HasColumnType("integer");
+                    b.Property<string>("CourierId")
+                        .HasColumnType("text");
 
                     b.Property<float>("EmptyPrice")
                         .HasColumnType("real");
@@ -208,44 +270,12 @@ namespace CourierBid.Migrations
 
                     b.HasKey("TruckId");
 
-                    b.HasIndex("CourierId");
+                    b.HasIndex("CourierId")
+                        .IsUnique();
 
                     b.HasIndex("ModelId");
 
                     b.ToTable("Trucks");
-                });
-
-            modelBuilder.Entity("CourierBid.Models.Users", b =>
-                {
-                    b.Property<int>("UserId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
-
-                    b.Property<string>("Email")
-                        .HasColumnType("text");
-
-                    b.Property<string>("FisrtName")
-                        .HasColumnType("text");
-
-                    b.Property<string>("LastName")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Password")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Phone")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Role")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Username")
-                        .HasColumnType("text");
-
-                    b.HasKey("UserId");
-
-                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("CourierBid.Models.Cargo", b =>
@@ -286,15 +316,13 @@ namespace CourierBid.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("CourierBid.Models.Users", "Users")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.HasOne("CourierBid.Data.ApplicationUser", "ApplicationUser")
+                        .WithOne("Expeditions")
+                        .HasForeignKey("CourierBid.Models.Expeditions", "UserId");
+
+                    b.Navigation("ApplicationUser");
 
                     b.Navigation("Cargo");
-
-                    b.Navigation("Users");
                 });
 
             modelBuilder.Entity("CourierBid.Models.Transports", b =>
@@ -310,11 +338,9 @@ namespace CourierBid.Migrations
 
             modelBuilder.Entity("CourierBid.Models.Trucks", b =>
                 {
-                    b.HasOne("CourierBid.Models.Users", "Users")
-                        .WithMany()
-                        .HasForeignKey("CourierId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.HasOne("CourierBid.Data.ApplicationUser", "ApplicationUser")
+                        .WithOne("Transports")
+                        .HasForeignKey("CourierBid.Models.Trucks", "CourierId");
 
                     b.HasOne("CourierBid.Models.TruckModels", "TruckModels")
                         .WithMany()
@@ -322,9 +348,16 @@ namespace CourierBid.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("TruckModels");
+                    b.Navigation("ApplicationUser");
 
-                    b.Navigation("Users");
+                    b.Navigation("TruckModels");
+                });
+
+            modelBuilder.Entity("CourierBid.Data.ApplicationUser", b =>
+                {
+                    b.Navigation("Expeditions");
+
+                    b.Navigation("Transports");
                 });
 #pragma warning restore 612, 618
         }
