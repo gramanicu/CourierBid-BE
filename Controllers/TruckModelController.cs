@@ -36,18 +36,20 @@ namespace CourierBid.Controllers
         }
 
         [HttpPost]
-        public void Add([FromBody] TruckModels truckModels)
+        public IActionResult Add([FromBody] TruckModels truckModels)
         {
             _context.Add(truckModels);
             _context.SaveChanges();
+            return Ok(truckModels);
         }
 
         [HttpPost]
-        public void Update([FromBody] TruckModels truckModels)
+        public IActionResult Update([FromBody] TruckModels truckModels)
         {
             var entity = _context.TruckModels.Attach(truckModels);
             entity.State = Microsoft.EntityFrameworkCore.EntityState.Modified;
             _context.SaveChanges();
+            return Ok(truckModels);
         }
 
         [HttpPost("{id}")]

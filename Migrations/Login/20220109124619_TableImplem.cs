@@ -1,8 +1,6 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
-using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace CourierBid.Migrations
+namespace CourierBid.Migrations.Login
 {
     public partial class TableImplem : Migration
     {
@@ -14,9 +12,6 @@ namespace CourierBid.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            
-
-            
 
         }
     }
